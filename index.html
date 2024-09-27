@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Outcome</title>
+    <title>BSAF Under the Chair Game</title>
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <style>
         body { 
@@ -22,27 +22,33 @@
     
     <script>
         const outcomes = [
-            "Congratulations! You won a prize! Please approach any Student Council Member.",
-            "Try again next time.",
-            "Here's a question for you: What is the capital of France?",
-            "You get a bonus entry!",
-            "Better luck next time!"
+            { text: "Congratulations! You won a prize! Please approach any Student Council Member.", color: "green" },
+            { text: "Try again next time.", color: "black" },
+            { text: "Here's a question for you: What is the capital of France?", color: "black" },
+            { text: "You get a bonus entry!", color: "black" },
+            { text: "Better luck next time!", color: "black" }
         ];
 
-        // today's date as a string
+        // Get today's date as a string (e.g., "2024-09-27")
         const today = new Date().toISOString().slice(0, 10);
         const storedOutcome = localStorage.getItem('dailyOutcome');
+        const storedColor = localStorage.getItem('dailyColor');
         const storedDate = localStorage.getItem('outcomeDate');
 
-        if (storedDate === today && storedOutcome) {
-            // If the outcome was already set today, display it
+        if (storedDate === today && storedOutcome && storedColor) {
+            // If the outcome was already set today, display it with the stored color
             document.getElementById('outcome').innerText = storedOutcome;
+            document.getElementById('outcome').style.color = storedColor;
         } else {
-            // If not, select a new random outcome and store it with today's date
-            const randomOutcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+            // If not, select a new random outcome and store it with today's date and its color
+            const randomIndex = Math.floor(Math.random() * outcomes.length);
+            const randomOutcome = outcomes[randomIndex].text;
+            const randomColor = outcomes[randomIndex].color;
             localStorage.setItem('dailyOutcome', randomOutcome);
+            localStorage.setItem('dailyColor', randomColor);
             localStorage.setItem('outcomeDate', today);
             document.getElementById('outcome').innerText = randomOutcome;
+            document.getElementById('outcome').style.color = randomColor;
         }
     </script>
 </body>
